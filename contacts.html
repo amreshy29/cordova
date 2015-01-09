@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contact Example</title>
+
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+    // Wait for Cordova to load
+    //
+    document.addEventListener("deviceready", onDeviceReady, false);
+
+    // Cordova is ready
+    //
+    
+   
+    function onDeviceReady() {
+        // specify contact search criteria
+        var options = new ContactFindOptions();
+        options.filter="";          // empty search string returns all contacts
+        options.multiple=true;      // return multiple results
+        filter = ["displayName"];   // return contact.displayName field
+
+        // find contacts
+        navigator.contacts.find(filter, onSuccess, onError, options);
+    }
+
+    // onSuccess: Get a snapshot of the current contacts
+    //
+    function onSuccess(contacts) {
+        var ele = document.getElementById('contactList');
+         var text;
+         var li; 
+        for (var i=0; i<contacts.length; i++) {
+            try {
+                if(contacts[i].displayName !== null  && contacts[i].displayName !== undefined) {
+                    console.log(contacts[i].displayName);
+                    li = document.createElement('li');
+                   text = document.createTextNode(contacts[i].displayName);
+                }
+                li.appendChild(text);
+                console.log(li);
+                ele.appendChild(li);
+                console.log(ele);
+            }
+            catch(e) {console.log("err");}
+            
+        }
+    };
+
+    // onError: Failed to get the contacts
+    //
+    function onError(contactError) {
+        alert('onError!');
+    }
+
+    </script>
+  </head>
+  <body>
+    <h1>Example</h1>
+    <p>Find Contacts</p>
+    <ul id="contactList"></ul>
+  </body>
+</html>
